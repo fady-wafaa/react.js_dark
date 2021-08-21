@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+
+import { useEffect, useState } from 'react';
 import './App.css';
 
-function App() {
+const App = () => {
+  const getTheme = ()=>{
+    return JSON.parse(localStorage.getItem("theme")) || false
+  }
+
+  const [ theme , setTheme] = useState(getTheme());
+
+  useEffect(()=>{
+    localStorage.setItem("theme",JSON.stringify(theme))
+  },[theme])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={theme ? "theme-dark" : ''}>
+
+      <div className="content-bg main-content">
+        <h1>React Dark Mode</h1>
+        <input type="checkbox" onChange={()=> setTheme(!theme)}  checked={theme ? "true": ''} />
+      </div>
+      
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
